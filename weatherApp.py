@@ -3,7 +3,7 @@ import json
 import time
 from bs4 import BeautifulSoup
 
-target_location = input("Hello, enter target location for currnet tempature to be displayed: ")
+target_location = input("Hello, enter target location for current tempature to be displayed: ")
 
 if(" " in target_location): #parsing/formatting the users input into a usable URL
     target_location = target_location.replace(" ", "+")

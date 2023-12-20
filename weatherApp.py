@@ -2,20 +2,37 @@ import requests
 import json
 from bs4 import BeautifulSoup
 
-location_count = int(input("Enter the amount of locations you want to find: "))
-locations = []
+def ascii_title():
+    title = """         
+ \ \      / /__  __ _| |_| |__   ___ _ __   / _(_)_ __   __| | ___ _ __ 
+  \ \ /\ / / _ \/ _` | __| '_ \ / _ \ '__| | |_| | '_ \ / _` |/ _ \ '__|
+   \ V  V /  __/ (_| | |_| | | |  __/ |    |  _| | | | | (_| |  __/ |   
+    \_/\_/ \___|\__,_|\__|_| |_|\___|_|    |_| |_|_| |_|\__,_|\___|_|\n\n"""
+    print(title)
 
-gooyat = [locations.append(input(f"enter location #{i + 1}: ")) for i in range(location_count)]
-weather = [None for _ in range(location_count)]
-pairs = { k:v for (k,v) in zip(locations, weather)}  
+def populate_dict():
+    location_count = int(input("    Enter the amount of locations you want to find the weather for: "))
+    print("\n")
+    locations = []
+
+    [locations.append(input(f"     Enter location #{i + 1}: ")) for i in range(location_count)]
+    print("\n")
+    weather = [None for _ in range(location_count)]
+    global pairs 
+    pairs = { k:v for (k,v) in zip(locations, weather)}  
  
 def main():
+    ascii_title()
+    populate_dict()
     for place in pairs:
         assign_temp(place)
+        print(f"      The temperature in {place} right now is: {pairs.get(place)}!\n")
+    print(pairs)
 
 def assign_temp(place):
-    if(" " in place): #parsing/formatting the users input into a usable URL
-        place = place.replace(" ", "+")
+    #if(" " in place): #parsing/formatting the users input into a usable URL
+        #place = place.replace(" ", "+")
+    
     api_url = f"https://geocode.maps.co/search?q={place}"
 
     api_request = requests.get(api_url)
@@ -33,6 +50,7 @@ def assign_temp(place):
 
     temperature = soup.find('p', class_ = "myforecast-current-lrg").text #scrapes weather.gov's html for the current tempature
     #location = soup.find('h2', class_ = "panel-title").text
-    print(temperature)
+    place[0].upper()
+    pairs[place] = temperature
 
-main()
+main() 
